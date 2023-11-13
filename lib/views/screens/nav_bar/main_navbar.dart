@@ -27,7 +27,7 @@ class _MainNavBarState extends State<MainNavBar> {
       body: screens[currentScreenIndex],
       bottomNavigationBar: NavigationBar(
         animationDuration: const Duration(milliseconds: 1000),
-        destinations: [
+        destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',

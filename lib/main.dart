@@ -27,11 +27,13 @@ class MyApp extends StatelessWidget {
         builder: (context) {
           final modelProvider = context.watch<ModelProvider>();
           final isDarkModeEnabled = modelProvider.isDarkModeEnabled;
+          // final darkModelProvider = context.watch<DarkModelProvider>();
+          //  final isDarkModeEnabled = darkModelProvider.isDarkModeEnabled;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'News App',
             theme: isDarkModeEnabled ? ThemeData.dark() : ThemeData.light(),
-            home: ProfileScreen(),
+            home: IntroScreen(),
             routes: {
               IntroScreen.introRoute: (context) => const IntroScreen(),
               MainNavBar.mainNavBarRoute: (context) => const MainNavBar(),

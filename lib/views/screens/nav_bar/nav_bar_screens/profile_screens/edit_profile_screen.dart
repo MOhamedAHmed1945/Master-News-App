@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:master/views/Screens/nav_bar/nav_bar_screens/profile_screens/profile_screen.dart';
+import 'package:provider/provider.dart';
 import '../../../../../helper/hive_function_box.dart';
+import '../../../../../models/model_provider.dart';
 import '../../../../../models/profile_user_models/profile_hive_model.dart';
 import '../../../../widgets/custom_TextFormFiled.dart';
 
@@ -12,28 +14,28 @@ class EditeProfileScreen extends StatefulWidget {
 }
 
 class _EditeProfileScreenState extends State<EditeProfileScreen> {
-  TextEditingController emailController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
 
-  TextEditingController userNameController = TextEditingController();
+  // TextEditingController userNameController = TextEditingController();
 
-  TextEditingController countryController = TextEditingController();
+  // TextEditingController countryController = TextEditingController();
 
-  TextEditingController addressController = TextEditingController();
+  // TextEditingController addressController = TextEditingController();
 
-  TextEditingController phoneNumberController = TextEditingController();
+  // TextEditingController phoneNumberController = TextEditingController();
 
-  TextEditingController ageController = TextEditingController();
+  // TextEditingController ageController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-  late final String emailEdit,
-      userNameEdit,
-      countryEdit,
-      addressEdit,
-      phoneNumberEdit,
-      ageEdit;
+  late final String addEmail,
+      addUserName,
+      addCountry,
+      addAddress,
+      addPhoneNumber,
+      addAge;
   @override
   Widget build(BuildContext context) {
-    //final provider = Provider.of<ModelProvider>(context, listen: false);
+    final provider = Provider.of<ModelProvider>(context, listen: false);
     final box = HiveFunctionBox.getProfileBox();
     late ProfileHiveModel newData;
     return Form(
@@ -47,7 +49,9 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
               elevation: 0,
               leading: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
+                  Navigator.pushNamedAndRemoveUntil(context,
+                          ProfileScreen.profileRoute, (route) => false);
                 },
                 icon: const Icon(
                   Icons.arrow_back_ios,
@@ -70,16 +74,16 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       newData = ProfileHiveModel(
-                        email: emailEdit,
-                        userName: userNameEdit,
-                        country: countryEdit,
-                        address: addressEdit,
-                        phoneNumber: phoneNumberEdit,
-                        age: ageEdit, //'22',
+                        email: addEmail,
+                        userName: addUserName,
+                        country: addCountry,
+                        address: addAddress,
+                        phoneNumber: addPhoneNumber,
+                        age: addAge,
                       );
                       box.add(newData);
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, ProfileScreen.profileRoute, (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          ProfileScreen.profileRoute, (route) => false);
                     } else {
                       autoValidateMode = AutovalidateMode.always;
                       setState(() {});
@@ -160,10 +164,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'Email',
                               icon: Icons.email_outlined,
-                              controller: emailController,
+                              //controller: emailController,provider
+                              controller: provider.emailController,
                               textInputType: TextInputType.emailAddress,
                               onSaved: (value) {
-                                emailEdit = value!;
+                                addEmail = value!;
                                 // editProfileModel?.email = value!;
                               },
                               validator: (value) {
@@ -180,10 +185,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'User Name',
                               icon: Icons.person_outline_outlined,
-                              controller: userNameController,
+                              controller: provider
+                                  .userNameController, //userNameController,
                               textInputType: TextInputType.text,
                               onSaved: (value) {
-                                userNameEdit = value!;
+                                addUserName = value!;
                                 //editProfileModel?.userName = value!;
                               },
                               validator: (value) {
@@ -199,10 +205,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'Country',
                               icon: Icons.flag_circle_outlined,
-                              controller: countryController,
+                              controller: provider
+                                  .countryController, // countryController,
                               textInputType: TextInputType.text,
                               onSaved: (value) {
-                                countryEdit = value!;
+                                addCountry = value!;
                                 //editProfileModel?.country = value!;
                               },
                               validator: (value) {
@@ -218,10 +225,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'Address',
                               icon: Icons.apartment_outlined,
-                              controller: addressController,
+                              controller: provider
+                                  .addressController, //addressController,
                               textInputType: TextInputType.text,
                               onSaved: (value) {
-                                addressEdit = value!;
+                                addAddress = value!;
                                 //editProfileModel?.address = value!;
                               },
                               validator: (value) {
@@ -237,10 +245,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'Phone Number',
                               icon: Icons.phone_android_outlined,
-                              controller: phoneNumberController,
+                              controller: provider
+                                  .phoneNumberController, //phoneNumberController,
                               textInputType: TextInputType.phone,
                               onSaved: (value) {
-                                phoneNumberEdit = value!;
+                                addPhoneNumber = value!;
                                 // editProfileModel?.phoneNumber = value! as int;
                               },
                               validator: (value) {
@@ -256,10 +265,11 @@ class _EditeProfileScreenState extends State<EditeProfileScreen> {
                             CustomTextFormFiled(
                               text: 'Age',
                               icon: Icons.hdr_auto_sharp,
-                              controller: ageController,
+                              controller:
+                                  provider.ageController, //ageController,
                               textInputType: TextInputType.number,
                               onSaved: (value) {
-                                ageEdit = value!;
+                                addAge = value!;
                                 //editProfileModel?.age = value! as int;
                               },
                               validator: (value) {
